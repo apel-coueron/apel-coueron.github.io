@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Fête de l'école, aidez nous !</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+  <h2>Fête de l'école, aidez nous !</h2>
+
+  <!-- Message d’attente -->
+  <div id="loading-message">Chargement du formulaire...</div>
+
+  <!-- Contenu caché pendant le chargement -->
+  <form id="reservation-form" style="display:none;">
+    <div id="user-info">
+      <h3>Informations personnelles</h3>
+      <p>Merci de remplir vos informations personnelles :</p>
+      <input type="text" name="nom" placeholder="Nom" required><br>
+      <input type="text" name="prenom" placeholder="Prénom" required><br>
+      <input type="email" name="email" placeholder="Email" required><br>
+      <br>
+      <h3>Aidez en journée</h3>
+      <p>Vous pouvez aussi nous aider durant la journée à préparer ou ranger la salle...</p>
+      <div class="radio-group">
+        <span class="radio-label">Le matin (9h-12h) :</span>
+        <label><input type="radio" name="vmatin" value="oui" required> Oui</label>
+        <label><input type="radio" name="vmatin" value="non"> Non</label>
+      </div>
+
+      <div class="radio-group">
+        <span class="radio-label">L'après-midi (14h-17h) :</span>
+        <label><input type="radio" name="vaprem" value="oui" required> Oui</label>
+        <label><input type="radio" name="vaprem" value="non"> Non</label>
+      </div>
+
+      <div class="radio-group">
+        <span class="radio-label">Rangement (après la fête) :</span>
+        <label><input type="radio" name="vsoir" value="oui" required> Oui</label>
+        <label><input type="radio" name="vsoir" value="non"> Non</label>
+      </div>
+      <br>
+      <h3>Aidez durant la fête</h3>
+      <p>Merci de choisir un ou plusieurs créneaux :</p>
+      </div>
+        <table id="reservation-table">
+          <thead>
+            <tr>
+              <th>Stand</th>
+              <th>1ère partie</th>
+              <th>Entracte</th>
+              <th>2e partie</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Rempli dynamiquement -->
+          </tbody>
+        </table>
+        <br>
+        <h3>Aider nous en cuisinant </h3>
+     
+        <p>Vous pouvez nous aider en apportant des gâteaux qui seront vendus sur place...
+        (merci si possible d'indiquer sur une étiquette les ingrédients principaux).
+        Les gateaux sont à déposer à la salle de l'Estuaire le vendredi de 9h à 18h</p>    
+
+          <div class="radio-group">
+            
+            <span class="radio-label">Gateaux :</span>
+            <label><input type="radio" id="gateaux_oui" name="gateau" value="oui" required> Oui</label>
+            <label><input type="radio" id="gateaux_non" name="gateau" value="non"> Non</label>
+          </div>
+
+          <div id="details_gateaux" style="display: none;">
+              <label for="gateaux_details">Quels gâteaux souhaitez-vous cuisiner ?</label><br>
+              <textarea id="gateaux_details" name="gateaux_details" rows="4" cols="50"></textarea><br><br>
+          </div>
+
+      <button type="submit">Réserver</button>
+    </div>
+  </form>
+</div>
+
+  <script>
+    confidential = false; // true si on veut cacher les noms des réservations
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxER5nolQcpLtEF7Kb728MRkssbt6r72FYDWJP6QXynqZdP_ls-R-79OkZcCksq69BJ/exec"; // Remplace par ton URL
+
+    const loadingMessage = document.getElementById("loading-message");
+    const reservationForm = document.getElementById("reservation-form");
+
+    const lastCheckedByGroup = {};
+
+    // Affiche le message de chargement, cache le formulaire
+    loadingMessage.style.display = "block";
+    reservationForm.style.display = "none";
+
+    fetch(scriptUrl)
+      .then(res => res.json())
+      .then(data => {
+        buildTable(data);
+        // Une fois les données prêtes, cacher le message et afficher le formulaire
+        loadingMessage.style.display = "none";
+        reservationForm.style.display = "block";
+      })
+      .catch(error => {
+        loadingMessage.textContent = "Erreur de chargement des données.";
+        console.error("Erreur lors du chargement :", error);
+      });
+
+    function buildTable(data) {
+      const tableBody = document.getElementById("table-body");
+      tableBody.innerHTML = "";
+
+      // 1. Regrouper les données par stand
+      const grouped = {};
+      data.forEach(item => {
+        if (!grouped[item.stand]) {
+          grouped[item.stand] = {
+            p1: [],
+            p2: [],
+            p3: []
+          };
+        }
+        grouped[item.stand].p1.push(item.p1);
+        grouped[item.stand].p2.push(item.p2);
+        grouped[item.stand].p3.push(item.p3);
+      });
+
+      // 2. Créer une ligne par stand
+      Object.keys(grouped).forEach(stand => {
+        const tr = document.createElement("tr");
+
+        const standCell = document.createElement("td");
+
+        standCell.textContent = stand;
+        standCell.classList.add("stand-name");
+        tr.appendChild(standCell);
+
+        ["p1", "p2", "p3"].forEach(partieKey => {
+          const td = document.createElement("td");
+          const parties = grouped[stand][partieKey];
+          firstEmpty = true;  
+          parties.forEach((nom, index) => {
+            const div = document.createElement("div");
+            div.classList.add("sub-slot");
+            
+
+            if (nom) {
+              div.textContent = confidential ? "Réservé" : nom;
+              div.classList.add("taken");
+            } else {
+              
+              if(firstEmpty) {
+                firstEmpty = false;
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.name = `${partieKey}`;
+                radio.value = `${stand}`;
+                // gestion du clic sur le radio permettant de décocher
+                // le dernier radio coché du même groupe
+                radio.addEventListener('click', function() {
+                  const groupName = this.name;
+                  if (lastCheckedByGroup[groupName] === this) {
+                    this.checked = false;
+                    lastCheckedByGroup[groupName] = null;
+                  } else {
+                    lastCheckedByGroup[groupName] = this;
+                  }
+              });
+                div.appendChild(radio);
+              }
+              else
+              {
+                div.classList.add("available");
+                div.textContent = `Libre`;
+              }
+            }
+
+            td.appendChild(div);
+          
+          });
+
+          tr.appendChild(td);
+        });
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Soumission du formulaire
+    document.getElementById("reservation-form").addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const form = e.target;
+      
+      const nom = form.nom.value.trim();
+      const prenom = form.prenom.value.trim();
+      const email = form.email.value.trim();
+
+      if (!nom || !prenom || !email) {
+        alert("Merci de remplir tous les champs.");
+        return;
+      }
+
+      const selectedRadio = form.querySelector("input[type='radio']:checked");
+      if (!selectedRadio) {
+        alert("Merci de sélectionner un créneau.");
+        return;
+      }
+      
+      const data = new FormData(form);
+  
+      // Empêche double clic
+      form.querySelector("button").disabled = true;
+  
+      try {
+        const response = await fetch(scriptUrl, {
+          method: 'POST',
+          body: data
+        });
+  
+        if (response.ok) {
+          form.style.display = "none";
+          loadingMessage.textContent = "Merci ! Votre réservation a bien été prise en compte.";
+          loadingMessage.style.display = "block";
+          reservationForm.style.display = "none";
+        } else {
+          throw new Error();
+        }
+  
+      } catch {
+        loadingMessage.textContent = "Erreur lors de l’envoi. Veuillez réessayer.";
+        loadingMessage.style.color = "red";
+        loadingMessage.style.display = "block";
+        reservationForm.style.display = "none";
+        form.querySelector("button").disabled = false;
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+            const gateauxOui = document.getElementById('gateaux_oui');
+            const gateauxNon = document.getElementById('gateaux_non');
+            const details = document.getElementById('details_gateaux');
+
+            function toggleGateaux() {
+                details.style.display = gateauxOui.checked ? 'block' : 'none';
+            }
+
+            gateauxOui.addEventListener('change', toggleGateaux);
+            gateauxNon.addEventListener('change', toggleGateaux);
+        });
+  </script>
+</body>
+</html>
