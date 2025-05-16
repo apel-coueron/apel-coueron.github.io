@@ -100,28 +100,28 @@ body {
   }
 
 
-.radio-group {
-  display: flex;
-  align-items: center;
-  gap: 1em; /* espace entre chaque bloc */
+/* Supprime les bordures uniquement pour cette table */
+.table-radio {
+  border: none;
+  border-collapse: collapse;
   margin-bottom: 1em;
-  flex-wrap: wrap; /* utile si la largeur devient trop petite */
+  width: auto;
 }
 
-.radio-group span.radio-label {
-  font-weight: 500;
-  color: #5f6368;
-  margin-right: 8px;
-  white-space: nowrap; /* évite les retours à la ligne */
+/* Supprime les bordures et centre verticalement uniquement pour cette table */
+.table-radio td,
+.table-radio th {
+  border: none;
+  padding: 6px 8px;
+  vertical-align: middle;
+  text-align: left; /* Centrage horizontal */
 }
 
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 4px; /* espace entre le bouton radio et le texte */
-  margin: 0;
+/* Optionnel : ajuster les radios */
+.table-radio input[type="radio"] {
+  vertical-align: middle;
+  margin-right: 4px;
 }
-
 
 .stand-name {
   vertical-align: middle;

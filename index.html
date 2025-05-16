@@ -23,7 +23,7 @@
       <br>
       <h3>Aider en journée</h3>
       <p>Vous pouvez aussi nous aider durant la journée à préparer ou ranger la salle...</p>
-      <div class="radio-group">
+      <!--<div class="radio-group">
         <span class="radio-label">Le matin (9h-12h) :</span>
         <label><input type="radio" name="vmatin" value="oui" required> Oui</label>
         <label><input type="radio" name="vmatin" value="non"> Non</label>
@@ -39,7 +39,57 @@
         <span class="radio-label">Rangement (après la fête) :</span>
         <label><input type="radio" name="vsoir" value="oui" required> Oui</label>
         <label><input type="radio" name="vsoir" value="non"> Non</label>
-      </div>
+      </div>-->
+      <table class="table-radio">
+        <tr>
+          <td><label for="vmatin-oui">Le matin (9h-12h) :</label></td>
+          <td>
+            <input type="radio" id="vmatin-oui" name="vmatin" value="oui" required>
+          </td>
+          <td>  
+            <label for="vmatin-oui">Oui</label>
+          </td>
+          <td>
+            <input type="radio" id="vmatin-non" name="vmatin" value="non">
+          </td>
+          <td>
+            <label for="vmatin-non">Non</label>
+          </td>
+        </tr>
+
+        <tr>
+          <td><label for="vaprem-oui">L'après-midi (14h-17h) :</label></td>
+          <td>
+            <input type="radio" id="vaprem-oui" name="vaprem" value="oui" required>
+          </td>
+          <td>  
+            <label for="vaprem-oui">Oui</label>
+          </td>
+          <td>
+            <input type="radio" id="vaprem-non" name="vaprem" value="non">
+          </td>
+          <td>
+            <label for="vaprem-non">Non</label>
+          </td>
+        </tr>
+
+        <tr>
+          <td><label for="vsoir-oui">Rangement (après la fête) :</label></td>
+          <td>
+            <input type="radio" id="vsoir-oui" name="vsoir" value="oui" required>
+          </td>
+          <td>  
+            <label for="vsoir-oui">Oui</label>
+          </td>
+          <td>
+            <input type="radio" id="vsoir-non" name="vsoir" value="non">
+          </td>
+          <td>
+            <label for="vsoir-non">Non</label>
+          </td>
+        </tr>
+      </table>
+
       <br>
       <h3>Aider durant la fête</h3>
       <p>Merci de choisir un ou plusieurs créneaux :</p>
@@ -48,9 +98,9 @@
           <thead>
             <tr>
               <th>Stand</th>
-              <th>1ère partie</th>
-              <th>Entracte</th>
-              <th>2e partie</th>
+              <th>1ère partie<br>(18h30 - 19h45)</th>
+              <th>Entracte<br>(19h45 - 20h30)</th>
+              <th>2e partie<br>(20h30 - 21h45)</th>
             </tr>
           </thead>
           <tbody id="table-body">
@@ -64,17 +114,28 @@
         (merci si possible d'indiquer sur une étiquette les ingrédients principaux).
         Les gateaux sont à déposer à la salle de l'Estuaire le vendredi de 9h à 18h</p>    
 
-          <div class="radio-group">
-            
-            <span class="radio-label">Gateaux :</span>
-            <label><input type="radio" id="gateaux_oui" name="gateau" value="oui" required> Oui</label>
-            <label><input type="radio" id="gateaux_non" name="gateau" value="non"> Non</label>
-          </div>
+        <table class="table-radio">
+          <tr>
+            <td><label for="gateaux-oui">Gateaux :</label></td>
+            <td>
+              <input type="radio" id="gateaux-oui" name="gateau" value="oui" required>
+            </td>
+            <td>  
+              <label for="gateaux-oui">Oui</label>
+            </td>
+            <td>
+              <input type="radio" id="gateaux-non" name="gateau" value="non">
+            </td>
+            <td>
+              <label for="gateaux-non">Non</label>
+            </td>
+          </tr>
+        </table>
 
-          <div id="details_gateaux" style="display: none;">
-              <label for="gateaux_details">Quels gâteaux souhaitez-vous cuisiner ?</label><br>
-              <textarea id="gateaux_details" name="gateaux_details" rows="4" cols="50"></textarea><br><br>
-          </div>
+        <div id="details_gateaux" style="display: none;">
+            <label for="gateaux_details">Quels gâteaux souhaitez-vous cuisiner ?</label><br>
+            <textarea id="gateaux_details" name="gateaux_details" rows="4" cols="50"></textarea><br><br>
+        </div>
 
       <button type="submit">Réserver</button>
     </div>
@@ -239,17 +300,17 @@
     });
 
     document.addEventListener("DOMContentLoaded", function () {
-            const gateauxOui = document.getElementById('gateaux_oui');
-            const gateauxNon = document.getElementById('gateaux_non');
-            const details = document.getElementById('details_gateaux');
+      const gateauxOui = document.getElementById('gateaux-oui');
+      const gateauxNon = document.getElementById('gateaux-non');
+      const details = document.getElementById('details_gateaux');
 
-            function toggleGateaux() {
-                details.style.display = gateauxOui.checked ? 'block' : 'none';
-            }
+      function toggleGateaux() {
+          details.style.display = gateauxOui.checked ? 'block' : 'none';
+      }
 
-            gateauxOui.addEventListener('change', toggleGateaux);
-            gateauxNon.addEventListener('change', toggleGateaux);
-        });
+      gateauxOui.addEventListener('change', toggleGateaux);
+      gateauxNon.addEventListener('change', toggleGateaux);
+    });
   </script>
 </body>
 </html>
