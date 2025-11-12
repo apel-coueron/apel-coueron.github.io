@@ -198,8 +198,9 @@
 
             if (nom) {
               div.textContent = confidential ? "Réservé" : nom;
-              if(nom === "fermé") {
+              if(nom === "fermé" || nom === "closed") {
                 div.classList.add("closed");
+                div.textContent = "fermé";
               }else {
                 div.classList.add("taken");
               }
