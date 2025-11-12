@@ -157,6 +157,14 @@ body {
     padding: 8px;
   }
 
+  /* Crénéaux déjà pris */
+  .sub-slot.closed {
+    background-color: #aaaaaa;
+    color: #777777;
+    font-style: italic;
+    padding: 8px;
+  }
+
   .sub-slot.available {
     padding: 8px;
   }

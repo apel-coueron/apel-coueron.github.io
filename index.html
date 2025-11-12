@@ -198,7 +198,11 @@
 
             if (nom) {
               div.textContent = confidential ? "Réservé" : nom;
-              div.classList.add("taken");
+              if(nom === "fermé") {
+                div.classList.add("closed");
+              }else {
+                div.classList.add("taken");
+              }
             } else {
               
               if(firstEmpty) {
