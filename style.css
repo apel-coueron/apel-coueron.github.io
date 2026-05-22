@@ -44,7 +44,7 @@ body {
     padding: 30px 40px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
+    max-width: 1000px;
     width: 100%;
   }
 
@@ -153,6 +153,14 @@ body {
   .sub-slot.taken {
     background-color: #D8E199;
     color: #6B7B32;
+    font-style: italic;
+    padding: 8px;
+  }
+
+  /* Crénéaux déjà pris */
+  .sub-slot.closed {
+    background-color: #aaaaaa;
+    color: #777777;
     font-style: italic;
     padding: 8px;
   }

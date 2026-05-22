@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Fête de l'école, aidez nous !</title>
+  <title>Fête de Noël, aidez nous !</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-  <h2>Fête de l'école, aidez nous !</h2>
+  <h2>Fête de Noël, aidez nous !</h2>
 
   <!-- Message d’attente -->
   <div id="loading-message">Chargement du formulaire...</div>
@@ -22,11 +22,11 @@
       <input type="email" name="email" placeholder="Email" required><br>
       <br>
       <h3>Aider en journée</h3>
-      <p>Vous pouvez aussi nous aider durant la journée à préparer ou ranger la salle...</p>
+      <p>Vous pouvez aussi nous aider durant la journée à préparer ou ranger...</p>
       
       <table class="table-radio">
         <tr>
-          <td><label for="vmatin-oui">Le matin (9h-12h) :</label></td>
+          <td><label for="vmatin-oui">Le matin (9h30-12h30) :</label></td>
           <td>
             <input type="radio" id="vmatin-oui" name="vmatin" value="oui" required>
           </td>
@@ -42,7 +42,7 @@
         </tr>
 
         <tr>
-          <td><label for="vaprem-oui">L'après-midi (14h-17h) :</label></td>
+          <td><label for="vaprem-oui">L'après-midi (14h-16h) :</label></td>
           <td>
             <input type="radio" id="vaprem-oui" name="vaprem" value="oui" required>
           </td>
@@ -82,9 +82,11 @@
           <thead>
             <tr>
               <th>Stand</th>
-              <th>1ère partie<br>(18h30 - 19h45)</th>
-              <th>Entracte<br>(19h45 - 20h30)</th>
-              <th>2e partie<br>(20h30 - 21h45)</th>
+              <th>16h - 17h</th>
+              <th>17h - 18h</th>
+              <th>18h - 19h</th>
+              <th>19h - 20h</th>
+              <th>20h - 21h</th>
             </tr>
           </thead>
           <tbody id="table-body">
@@ -99,7 +101,7 @@
 
         <table class="table-radio">
           <tr>
-            <td><label for="gateaux-oui">Gateaux :</label></td>
+            <td><label for="gateaux-oui">Cakes / gateaux :</label></td>
             <td>
               <input type="radio" id="gateaux-oui" name="gateau" value="oui" required>
             </td>
@@ -116,7 +118,7 @@
         </table>
 
         <div id="details_gateaux" style="display: none;">
-            <label for="gateaux_details">Quels gâteaux souhaitez-vous cuisiner ?</label><br>
+            <label for="gateaux_details">Quels cakes souhaitez-vous cuisiner ?</label><br>
             <textarea id="gateaux_details" name="gateaux_details" rows="4" cols="50"></textarea><br><br>
         </div>
 
@@ -127,9 +129,8 @@
 
   <script>
     confidential = false; // true si on veut cacher les noms des réservations
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxblNdyRFcsdUa3lZHeNv34HOBuoMHkqf8ncbX_yPpcQvdH2rJFuw2_E8xFCXUxqP4K/exec";
-    
-
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzqqWJ86Dvnef4P9FNVAlrrUiVdTrkShutMOkSeSgwkVWybvA1sRmYI2J-3m0Y0nW4x6Q/exec";
+   
     const loadingMessage = document.getElementById("loading-message");
     const reservationForm = document.getElementById("reservation-form");
 
@@ -163,12 +164,16 @@
           grouped[item.stand] = {
             p1: [],
             p2: [],
-            p3: []
+            p3: [],
+            p4: [],
+            p5: []
           };
         }
         grouped[item.stand].p1.push(item.p1);
         grouped[item.stand].p2.push(item.p2);
         grouped[item.stand].p3.push(item.p3);
+        grouped[item.stand].p4.push(item.p4);
+        grouped[item.stand].p5.push(item.p5);
       });
 
       // 2. Créer une ligne par stand
@@ -181,7 +186,7 @@
         standCell.classList.add("stand-name");
         tr.appendChild(standCell);
 
-        ["p1", "p2", "p3"].forEach(partieKey => {
+        ["p1", "p2", "p3","p4","p5"].forEach(partieKey => {
           const td = document.createElement("td");
           const parties = grouped[stand][partieKey];
           firstEmpty = true;  
@@ -192,7 +197,12 @@
 
             if (nom) {
               div.textContent = confidential ? "Réservé" : nom;
-              div.classList.add("taken");
+              if(nom === "fermé" || nom === "closed") {
+                div.classList.add("closed");
+                div.textContent = "fermé";
+              }else {
+                div.classList.add("taken");
+              }
             } else {
               
               if(firstEmpty) {
