@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Roboto&display=swap');
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: #f5f5f5;
+  background-color: #edf2ee;
+  background-image: repeating-linear-gradient(135deg, transparent 0, transparent 38px, rgba(42, 87, 67, 0.035) 38px, rgba(42, 87, 67, 0.035) 40px);
+  color: #293a33;
     display: flex;
     justify-content: center;
     padding: 40px;
@@ -30,7 +32,8 @@ body {
   }
   
   th {
-    background-color: #f1f3f4;
+    background-color: #e4eee8;
+    color: #214f3a;
     font-weight: 500;
   }
 
@@ -40,20 +43,37 @@ body {
   }
 
   .container {
-    background: white;
+    background: linear-gradient(white, white) padding-box,
+      repeating-linear-gradient(135deg, #aa3d42 0 12px, #fff 12px 24px, #315c45 24px 36px, #fff 36px 48px) border-box;
     padding: 30px 40px;
+    border-top: 8px solid transparent;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 18px rgba(32, 68, 51, 0.12);
     max-width: 1000px;
     width: 100%;
   }
 
   h2 {
     margin-top: 0;
-    color: #202124;
-    font-size: 24px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+    color: #214f3a;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 28px;
+    line-height: 1.25;
+    border-bottom: 2px solid #d5e2d9;
+    padding-bottom: 20px;
+  }
+
+  h2::before {
+    content: "\2744";
+    color: #a93c3c;
+    margin-right: 10px;
+  }
+
+  h3 {
+    color: #214f3a;
+    font-family: 'Fraunces', Georgia, serif;
+    border-left: 4px solid #bd9446;
+    padding-left: 10px;
   }
 
   label {
@@ -73,13 +93,18 @@ body {
     transition: border 0.3s;
   }
 
+  input[type="radio"], input[type="checkbox"] {
+    accent-color: #a93c3c;
+  }
+
   input:focus, textarea:focus, select:focus {
-    border-color: #1a73e8;
-    outline: none;
+    border-color: #326b4d;
+    outline: 2px solid #b5d3bf;
+    outline-offset: 1px;
   }
 
   button {
-    background-color: #1a73e8;
+    background-color: #a93c3c;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -91,7 +116,7 @@ body {
   }
 
   button:hover {
-    background-color: #1558c4;
+    background-color: #832d2d;
   }
 
   #msg {
@@ -179,4 +204,24 @@ body {
     background-color: #ccc;
     color: #666;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 12px;
+    }
+
+    .container {
+      padding: 24px 18px;
+      min-width: 0;
+    }
+
+    #reservation-table {
+      display: block;
+      overflow-x: auto;
+    }
+
+    #reservation-table th {
+      min-width: 80px;
+    }
   }
