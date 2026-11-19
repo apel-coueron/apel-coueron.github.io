@@ -279,6 +279,7 @@
           loadingMessage.textContent = "Merci ! Votre réservation a bien été prise en compte.";
           loadingMessage.style.display = "block";
           reservationForm.style.display = "none";
+          setTimeout(() => window.location.reload(), 4000);
         } else {
           throw new Error();
         }
