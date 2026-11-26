@@ -83,10 +83,14 @@
           <thead>
             <tr>
               <th>Stand</th>
-              <th>16h - 17h</th>
-              <th>17h - 18h</th>
-              <th>18h - 19h</th>
-              <th>19h - 20h</th>
+              <th>16h00 - 16h30</th>
+              <th>16h30 - 17h00</th>
+              <th>17h00 - 17h30</th>
+              <th>17h30 - 18h00</th>
+              <th>18h00 - 18h30</th>
+              <th>18h30 - 19h00</th>
+              <th>19h00 - 19h30</th>
+              <th>19h30 - 20h00</th>
             </tr>
           </thead>
           <tbody id="table-body">
@@ -167,13 +171,21 @@
             p1: [],
             p2: [],
             p3: [],
-            p4: []
+            p4: [],
+            p5: [],
+            p6: [],
+            p7: [],
+            p8: []
           };
         }
         grouped[item.stand].p1.push(item.p1);
         grouped[item.stand].p2.push(item.p2);
         grouped[item.stand].p3.push(item.p3);
         grouped[item.stand].p4.push(item.p4);
+        grouped[item.stand].p5.push(item.p5);
+        grouped[item.stand].p6.push(item.p6);
+        grouped[item.stand].p7.push(item.p7);
+        grouped[item.stand].p8.push(item.p8);
       });
 
       // 2. Créer une ligne par stand
@@ -186,7 +198,7 @@
         standCell.classList.add("stand-name");
         tr.appendChild(standCell);
 
-        ["p1", "p2", "p3","p4"].forEach(partieKey => {
+        ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"].forEach(partieKey => {
           const td = document.createElement("td");
           const parties = grouped[stand][partieKey];
           firstEmpty = true;  
